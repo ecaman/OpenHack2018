@@ -1,14 +1,6 @@
 from sklearn.base import BaseEstimator, ClassifierMixin
-from keras.models import Sequential
-from keras.layers.convolutional import Conv2D
-from keras.layers.core import Dense
-from keras.layers.core import Activation
-from keras.layers.convolutional import MaxPooling2D
-from keras.utils import to_categorical
-from keras import optimizers
-from keras.layers.core import Flatten
-from keras.layers import Dropout
-from keras.callbacks import EarlyStopping
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
 
 import pickle
 
@@ -24,19 +16,30 @@ class ImageClassifier(BaseEstimator, ClassifierMixin):
         self.model = None
 
     def fit(self, X, y=None):
-        model = Sequential()
-        model.add(Conv2D(32, (3,3), activation='relu', input_shape=(128, 128, 3)))
-        model.add(MaxPooling2D(pool_size=(3, 3)))
-        model.add(Conv2D(32, (3, 3), activation='relu'))
-        model.add(MaxPooling2D(pool_size=(3, 3)))
-        model.add(Flatten())
-        model.add(Dense(128, activation='relu'))
-        model.add(Dropout(0.2))
-        model.add(Dense(12, activation = 'softmax'))
-        model.compile(loss='categorical_crossentropy',
-              optimizer=optimizers.Adam(lr=0.01),
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(128,128,3)))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(3, 3)))
+        model.add(tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu'))
+        model.add(tf.keras.layers.MaxPool2D(pool_size=(3, 3)))
+        model.add(tf.keras.layers.Flatten())
+        model.add(tf.keras.layers.Dense(128, activation='relu'))
+        #model.add(tf.keras.layers.Dense(12, activation='softmax'))
+        model.add(tf.keras.layers.Dropout(0.2))
+        model.add(tf.keras.layers.Dense(12))
+        model.add(tf.keras.layers.Activation("softmax"))
+        
+        model.compile(loss=tf.keras.losses.categorical_crossentropy,
+              optimizer=tf.keras.optimizers.Adam(lr=0.01),
               metrics=['accuracy'])
-        model.fit(X, y, batch_size=self.batch_size, epochs=self.epochs, validation_split=0.1)
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+        model.fit(X_train, y_train,
+                  batch_size=self.batch_size,
+                  epochs=self.epochs,
+                  verbose=True,
+                  validation_data=(X_test, y_test))
         self.model = model
     
     def predict(self, X):
