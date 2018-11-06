@@ -24,7 +24,7 @@ def workflow_training(path_to_images, path_to_saves):
     for element_type in os.listdir(path_to_images):
         for pic in os.listdir(path_to_images + '/' + element_type):
             img = load_resize_image(path_to_images + '/' + element_type + '/' + pic)
-            img = exagerate_contrast_2(img)
+            img = exagerate_contrast(img)
             img = np.array(img)
             list_imgs.append(img)
             labels.append(element_type)
@@ -40,8 +40,8 @@ def workflow_training(path_to_images, path_to_saves):
     model.fit(X, y)
     
     # Save model
-    model.save_model(path_to_saves + '/model.pkl')
-    save_binarizer(path_to_saves + '/binarizer.pkl', lb_bin)
+    model.save_model(path_to_saves + 'model.pkl')
+    save_binarizer(path_to_saves + 'binarizer.pkl', lb_bin)
     
     
     

@@ -22,7 +22,7 @@ def workflow_predicting(path_to_images, path_to_saves):
     list_imgs = []
     for pic in os.listdir(path_to_images):
         img = load_resize_image(path_to_images + '/' + pic)
-        img = exagerate_contrast_2(img)
+        img = exagerate_contrast(img)
         img = np.array(img)
         list_imgs.append(img)
         labels.append(element_type)

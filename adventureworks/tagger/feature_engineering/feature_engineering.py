@@ -43,7 +43,7 @@ def save_binarizer(path_to_binarizer, binarizer):
     '''
     Need a docstring!!!
     '''
-    path_to_binarizer = open(path_to_binarizer, 'rb')
+    path_to_binarizer = open(path_to_binarizer, 'wb')
     pickle.dump(binarizer, path_to_binarizer)
     path_to_binarizer.close()
     
