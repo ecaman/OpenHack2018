@@ -1,7 +1,7 @@
 from sklearn.base import BaseEstimator, ClassifierMixin
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-
+from keras.models import load_model
 import pickle
 
 class ImageClassifier(BaseEstimator, ClassifierMixin):  
@@ -57,7 +57,7 @@ class ImageClassifier(BaseEstimator, ClassifierMixin):
         """
         self.model.save(path_model)
 
-    def load_model(self, path_model):
+    def load_neural_model(self, path_model):
         """
         Load model and classes, used in predict mode
         params:

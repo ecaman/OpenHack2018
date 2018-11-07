@@ -32,7 +32,7 @@ def workflow_predicting(path_to_images, path_to_saves):
     # Load Model
     model = ImageClassifier(epochs=30, batch_size=128)
     
-    model.load_model(path_to_saves + '/model.pkl')
+    model.load_neural_model(path_to_saves + '/model.pkl')
     lb_bin = load_binarizer(path_to_saves + '/binarizer.pkl')
     
     # Predicting

@@ -53,7 +53,7 @@ def load_binarizer(path_to_binarizer):
     '''
     path_to_binarizer = open(path_to_binarizer, 'rb')
     binarizer = pickle.load(path_to_binarizer)
-    path_classes.close()
+    path_to_binarizer.close()
     return binarizer
 
     
